@@ -1,38 +1,314 @@
-.App {
-  text-align: center;
+/* App.css */
+
+/* Общие стили */
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff0f6;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Контейнер игры */
+.game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #fff0f6;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 90%;
+  margin: 0 auto;
+  transition: transform 0.3s;
+}
+
+/* Заголовок */
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #ff69b4;
+  text-shadow: 2px 2px #f78fb3;
+}
+
+/* Статистика */
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.stats {
+  font-size: 16px;
+  color: #ff69b4;
+}
+
+.stats p {
+  margin: 0;
+  font-size: 18px;
+  background-color: #ffb6c1;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.stats p span {
+  font-weight: bold;
+  color: #ff69b4;
+}
+
+/* Загрузка изображения */
+.upload-container {
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  padding: 8px;
+  border: 2px solid #ff69b4;
+  border-radius: 5px;
+  background-color: #ffe4e6;
+  color: #ff69b4;
+  cursor: pointer;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #ff69b4;
+  border: none;
+  padding: 5px 10px;
   color: white;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+/* Игровое поле */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffccf9;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 100%;
+  max-width: 400px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Плитки */
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffb6c1;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  background-size: 400px 400px;
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+  aspect-ratio: 1;
+}
+
+.tile:hover {
+  transform: translateY(-5px);
+  background-color: #ff85a1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tile.empty {
+  background-color: #ffe4e6;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Изображение решения */
+.solution-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-size: cover;
+  border: 2px solid #ff69b4;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Контрольные кнопки */
+.controls {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.controls button {
+  background-color: #ff69b4;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.controls button:hover {
+  background-color: #ff85a1;
+  transform: translateY(-2px);
+}
+
+/* Модальное окно */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  animation: zoomIn 0.5s ease;
+}
+
+.modal-content h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ff69b4;
+}
+
+.modal-content p {
+  font-size: 16px;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #ff69b4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-content button:hover {
+  background-color: #ff3399;
+  transform: scale(1.05);
+}
+
+/* Медиазапросы для адаптивности */
+@media (max-width: 600px) {
+  .game-container {
+    padding: 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  h1 {
+    font-size: 1.5rem;
   }
+
+  .stats-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stats {
+    margin-bottom: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .stats p {
+    font-size: 16px;
+  }
+
+  .tile {
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-width: 300px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-content p {
+    font-size: 14px;
+  }
+
+  .modal-content button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); }
+  to { transform: scale(1); }
+}
+
+/* Модальное окно перед началом игры */
+.start-modal .modal-content {
+  background-color: #fff;
+  color: #ff69b4;
+  font-size: 1.2rem;
+  border: 2px solid #ff69b4;
+}
+
+.start-modal .modal-content button {
+  background-color: #ff69b4;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-modal .modal-content button:hover {
+  background-color: #ff85a1;
 }
